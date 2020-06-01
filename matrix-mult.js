@@ -20,12 +20,21 @@ function multiplyMatrices(matrixA, matrixB) {
 		resultMatrix.push([]);	// push a new arr
 		
 		for (var j = 0; j < endMatrixColumns; ++j){
-			resultMatrix[i].push(0);
+			let amt = doDotProductForRowAndColumn(matrixA, matrixB, i, j);
+			resultMatrix[i].push(amt);
 		}
 	}
 
 	console.log(resultMatrix);
 
+}
 
 
+
+function doDotProductForRowAndColumn(matrixA, matrixB, rowNum, columnNum){
+	var result = 0;
+	for (var i = 0; i < matrixA[0].length; ++i){
+		result += matrixA[rowNum][i] * matrixB[i][columnNum];
+	}
+	return result;
 }

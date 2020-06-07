@@ -1,4 +1,4 @@
-// Recursion practice
+// Recursion practice: https://www.codingame.com/playgrounds/5422/js-interview-prep-recursion
 
 /*
 Question 1: Sum all numbers

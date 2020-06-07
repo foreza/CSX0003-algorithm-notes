@@ -80,34 +80,83 @@ https://stackoverflow.com/questions/9889679/find-second-largest-number-in-array-
 
 
 function findSecondLargest(array) {
-
-    return recurFor2ndLargest(array)
-
-
+    let returnTuple = recurFor2ndLargest(array);
+    let solution = recurFor2ndLargest(returnTuple.array);
+    return solution.win;
 }
 
-function recurFor2ndLargest(array, high, low) {
+function recurFor2ndLargest(array) {
 
-    if (low >= high) {
-        return Math.max(array[0], array[1]);
+    if (array.length == 0) {
+        return;
     }
+
+    if (array.length == 1) {
+        let tuple = {
+            win: array[0],
+            loss: array[0],
+            array: [array[0]]
+        }
+
+        console.log(JSON.stringify(tuple));
+
+        return tuple;
+    }
+
+    if (array.length == 2){
+        
+        let tuple = doComparisonForTuple(array[0], array[1], [], []);
+        console.log(JSON.stringify(tuple));
+        return tuple;
+    }
+
     else if (array.length > 2){
 
-        midPoint = Math.floor(array.length / 2);
-        leftArr = array.slice(0, midPoint)
-        rightArr = array.slice(midPoint)
+        let midPoint = Math.floor(array.length/2)
+        let leftArray = array.slice(0,midPoint);
+        let rightArray = array.slice(midPoint);
 
-        console.log(leftArr)
-        console.log(rightArr)
+        console.log(`leftArray: ${JSON.stringify(leftArray)}`)
+        console.log(`rightArray: ${JSON.stringify(rightArray)}`)
 
-        
+        let leftTuple = recurFor2ndLargest(leftArray)
+        let rightTuple = recurFor2ndLargest(rightArray)
+
+        let combinedTuple = doComparisonForTuple(leftTuple.win, rightTuple.win, leftTuple.array, rightTuple.array)
+        console.log(`combinedTuple: ${JSON.stringify(combinedTuple)}`)
+
+        return combinedTuple;
 
     }
 
 
-
 }
 
-function getLargerNumber(a,b){
-    return Math.max(a,b);
+function doComparisonForTuple(leftValue, rightValue, leftArray, rightArray){
+
+    let winValue; 
+    let lossValue;
+    let returnArray;
+
+    if (leftValue > rightValue) {
+        winValue = leftValue;
+        lossValue = rightValue;
+        returnArray = leftArray;
+    } else {
+        winValue = rightValue;
+        lossValue = leftValue;
+        returnArray = rightArray;
+    }
+
+    returnArray.push(lossValue);
+    
+    let tuple = {
+        win: winValue,
+        loss: lossValue,
+        array: returnArray
+    }
+
+    console.log("doComparisonForTuple yielded: " , JSON.stringify(tuple));
+    return tuple;
+
 }
